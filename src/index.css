@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@layer components {
+  .choosed-number {
+    transform: scale(0);
+    animation: fadeIn 500ms forwards;
+  }
+
+  @keyframes fadeIn {
+    50% {
+      transform: scale(1.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}
