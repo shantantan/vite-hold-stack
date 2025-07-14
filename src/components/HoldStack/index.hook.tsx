@@ -135,8 +135,12 @@ export const useHoldStack = () => {
     [removeFirstNumber],
   );
 
-  const onMouseDown = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleStacking = useCallback(
+    (
+      e:
+        | React.MouseEvent<HTMLButtonElement>
+        | React.TouchEvent<HTMLButtonElement>,
+    ) => {
       e.preventDefault();
 
       if (animationFrameId.current) {
@@ -149,7 +153,11 @@ export const useHoldStack = () => {
           onUpdate: (ratio) => updateProgressOnStacking(ratio),
           onComplete: () => {
             drawNextNumber();
+            setDisplayNumbers((prev) => [...prev].sort((a, b) => a - b));
             setIsCompleted(true);
+            // setTimeout(() => {
+            //   setDisplayNumbers((prev) => [...prev].sort((a, b) => a - b));
+            // }, 500);
           },
         },
       });
@@ -159,8 +167,12 @@ export const useHoldStack = () => {
     [startStacking, updateProgressOnStacking, drawNextNumber],
   );
 
-  const onMouseUp = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleUnstacking = useCallback(
+    (
+      e:
+        | React.MouseEvent<HTMLButtonElement>
+        | React.TouchEvent<HTMLButtonElement>,
+    ) => {
       e.preventDefault();
 
       if (animationFrameId.current) {
@@ -171,9 +183,7 @@ export const useHoldStack = () => {
         duration: 1000,
         params: {
           onUpdate: (ratio) => updateProgressOnUnstacking(ratio),
-          onComplete: () => {
-            // TODO: 処理を追加する
-          },
+          onComplete: () => {},
         },
       });
 
@@ -182,5 +192,30 @@ export const useHoldStack = () => {
     [startUnstacking, updateProgressOnUnstacking],
   );
 
-  return { onMouseDown, onMouseUp, isCompleted, displayNumbers };
+  const handleReset = useCallback(
+    (
+      e:
+        | React.MouseEvent<HTMLButtonElement>
+        | React.TouchEvent<HTMLButtonElement>,
+    ) => {
+      e.preventDefault();
+
+      setIsCompleted(false);
+      animationFrameId.current = null;
+      ratio.current = 0;
+      prevRatio.current = 0;
+      choosedNumbers.current = [];
+      candidateNumbers.current = Array.from({ length: 43 }, (_, i) => i + 1);
+      setDisplayNumbers([]);
+    },
+    [],
+  );
+
+  return {
+    handleStacking,
+    handleUnstacking,
+    handleReset,
+    isCompleted,
+    displayNumbers,
+  };
 };
