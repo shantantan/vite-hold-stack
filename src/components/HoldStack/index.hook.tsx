@@ -155,9 +155,6 @@ export const useHoldStack = () => {
             drawNextNumber();
             setDisplayNumbers((prev) => [...prev].sort((a, b) => a - b));
             setIsCompleted(true);
-            // setTimeout(() => {
-            //   setDisplayNumbers((prev) => [...prev].sort((a, b) => a - b));
-            // }, 500);
           },
         },
       });
