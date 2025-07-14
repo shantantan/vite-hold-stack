@@ -143,6 +143,8 @@ export const useHoldStack = () => {
     ) => {
       e.preventDefault();
 
+      if (isCompleted) return;
+
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
@@ -161,7 +163,7 @@ export const useHoldStack = () => {
 
       prevRatio.current = ratio.current;
     },
-    [startStacking, updateProgressOnStacking, drawNextNumber],
+    [isCompleted, startStacking, updateProgressOnStacking, drawNextNumber],
   );
 
   const handleUnstacking = useCallback(
@@ -171,6 +173,8 @@ export const useHoldStack = () => {
         | React.TouchEvent<HTMLButtonElement>,
     ) => {
       e.preventDefault();
+
+      if (isCompleted) return;
 
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
@@ -186,7 +190,7 @@ export const useHoldStack = () => {
 
       prevRatio.current = ratio.current;
     },
-    [startUnstacking, updateProgressOnUnstacking],
+    [isCompleted, startUnstacking, updateProgressOnUnstacking],
   );
 
   const handleReset = useCallback(
@@ -197,6 +201,8 @@ export const useHoldStack = () => {
     ) => {
       e.preventDefault();
 
+      if (!isCompleted) return;
+
       setIsCompleted(false);
       animationFrameId.current = null;
       ratio.current = 0;
@@ -205,7 +211,7 @@ export const useHoldStack = () => {
       candidateNumbers.current = Array.from({ length: 43 }, (_, i) => i + 1);
       setDisplayNumbers([]);
     },
-    [],
+    [isCompleted],
   );
 
   return {
