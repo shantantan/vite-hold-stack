@@ -2,7 +2,7 @@ import { HoldStack } from "@/components/HoldStack";
 
 function App() {
   return (
-    <div className="min-h-screen">
+    <div className="">
       <HoldStack />
     </div>
   );
