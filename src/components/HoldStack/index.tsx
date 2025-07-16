@@ -19,7 +19,10 @@ export const HoldStack = () => {
         onTouchEnd={handleUnstacking}
         type="button"
         disabled={isCompleted}
-        className={cn("absolute inset-0 z-10", isCompleted && "hidden")}
+        className={cn(
+          "absolute inset-0 z-10 select-none",
+          isCompleted && "hidden",
+        )}
       />
       <div>
         {displayNumbers.length === 0 && (
